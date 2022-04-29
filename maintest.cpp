@@ -1,6 +1,10 @@
 #include"data.cpp"
+#include <map>
+#include <iostream>
+#include <iterator>
 #include<fstream>
 #include <regex>
+#include <vector>
 
 using namespace std;
 
@@ -12,57 +16,87 @@ void changePassword();
 bool emailVerifier(const string&);
 bool phoneVerifier(const string&);
 
-int main() {
-    bool run = true;
 
-    while(run){
-        printf("Choose an option:\n1-Register\n2-Log In\n3-Change Password\n4-Exit\n");
-        char userInput;
-        cin >> userInput;
-        switch (userInput) {
-            case '1':
-                Register();
-                break;
-//            case '2':
-//                logIn();
-//                break;
-//            case '3':
-//                changePassword();
-//                break;
-            case '4':
-                run = false;
-                break;
-            default:
-                cout << "Please choose a valid option.";  //needs a loop to handle the wrong input
-                break;
-        }
-    }
+void loadProfileData();
+
+int main() {
+    loadProfileData();
+//     bool run = true;
+
+//     while(run){
+//         printf("Choose an option:\n1-Register\n2-Log In\n3-Change Password\n4-Exit\n");
+//         char userInput;
+//         cin >> userInput;
+//         switch (userInput) {
+//             case '1':
+//                 Register();
+//                 break;
+// //            case '2':
+// //                logIn();
+// //                break;
+// //            case '3':
+// //                changePassword();
+// //                break;
+//             case '4':
+//                 run = false;
+//                 break;
+//             default:
+//                 cout << "Please choose a valid option.";  //needs a loop to handle the wrong input
+//                 break;
+//         }
+//     }
 
 
 }
+
+
+void loadProfileData() {
+    map<string, User> userMap;
+    vector<User> myUsers;
+    fstream dataSource;
+    User newUser;
+
+    dataSource.open("userDataSample.txt", ios::in);
+
+    while (!dataSource.eof()) {
+        dataSource >> newUser;
+        myUsers.push_back(newUser);
+        userMap.insert(pair<string, User>(myUsers[myUsers.size() - 1].ID, myUsers[myUsers.size() - 1]));
+    }
+
+    for (int i = 0; i < myUsers.size(); i++) {
+        cout << myUsers[i];
+    }
+
+    dataSource.close();
+
+    cout << userMap["20210544"];
+}
+
+
 
 ostream& operator<< (ostream& out, const User& user) {
     out << user.ID << ' ';
+    out << user.username << ' ';
+    out << user.password << ' ';
     out << user.email << ' ';
     out << user.phoneNumber << ' ';
-    out << user.username << ' ';
-    out << user.password << endl;
+    out << endl;
     return out;
 }
 
+
+
 istream& operator>> (istream& in, User& user) {
-    cout << "ID: " << endl;
     in >> user.ID;
-    cout << "Email: ";
-    in >> user.email;
-    cout << "Phone Number: " << endl;
-    in >> user.phoneNumber;
-    cout << "Username: " << endl;
     in >> user.username;
-    cout << "Password: " << endl;
     in >> user.password;
+    in >> user.email;
+    in >> user.phoneNumber;
     return in;
 }
+
+
 
 void Register(){
     User userInfo;

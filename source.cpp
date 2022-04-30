@@ -1,8 +1,6 @@
 #include "source.h"
 
 void loadProfileData() {
-    map<string, User> userMap;
-    vector<User> myUsers;
     fstream dataSource;
     User newUser;
 
@@ -10,17 +8,14 @@ void loadProfileData() {
 
     while (!dataSource.eof()) {
         dataSource >> newUser;
-        myUsers.push_back(newUser);
-        userMap.insert(pair<string, User>(myUsers[myUsers.size() - 1].ID, myUsers[myUsers.size() - 1]));
-    }
-
-    for (int i = 0; i < myUsers.size(); i++) {
-        cout << myUsers[i];
+        userList.push_back(newUser);
+        userMap.insert(pair<string, User>(
+            userList[userList.size() - 1].ID, userList[userList.size() - 1]
+                )
+            );
     }
 
     dataSource.close();
-
-    cout << userMap["20210544"];
 }
 
 

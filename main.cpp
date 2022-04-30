@@ -1,7 +1,9 @@
 #include "source.h"
 
 int main() {
-    loadProfileData();
+
+
+    // loadProfileData();
 //     bool run = true;
 
 //     while(run){

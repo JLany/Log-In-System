@@ -38,6 +38,8 @@ ostream& operator<< (ostream& out, const User& user) {
 
 
 istream& operator>> (istream& in, User& user) {
+    // probably this overload will only be used to load from file
+    // using it for registeration is not ideal
     in >> user.ID;
     in >> user.username;
     in >> user.password;
@@ -48,9 +50,12 @@ istream& operator>> (istream& in, User& user) {
 
 
 
-void Register(){
-    User userInfo;
-    cin >> userInfo;
+void Register() {
+    // take ID and verify it
+    // take E-mail and verify its format and non-use before
+    // take username and verify it
+    // take mobile number and verify it
+    // take password and verify: {Strength, repeat it, using allowed charcters}
 }
 
 bool emailVerifier(const string& email){
@@ -70,8 +75,23 @@ bool phoneVerifier(const string& phoneNum){
 }
 
 
+void displayPassReq() {
+    
+}
 
 
+string takePassword() {
+    string password, passAgain = "";
+    cout << "Password: ";
+    cin >> password;
+    cout << "Repeat your Password: ";
+    cin >> passAgain;
+    while (password != passAgain) {
+        cout << "Make sure you enter the same password twice! : ";
+        cin >> passAgain;
+    }
+    return password;
+}
 
 
 

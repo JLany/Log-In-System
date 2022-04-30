@@ -26,6 +26,7 @@ void loadProfileData() {
 
 
 ostream& operator<< (ostream& out, const User& user) {
+    // Encryption of password may occur here
     out << user.ID << ' ';
     out << user.username << ' ';
     out << user.password << ' ';
@@ -51,11 +52,15 @@ istream& operator>> (istream& in, User& user) {
 
 
 void Register() {
+    User newUser;
     // take ID and verify it
     // take E-mail and verify its format and non-use before
     // take username and verify it
     // take mobile number and verify it
     // take password and verify: {Strength, repeat it, using allowed charcters}
+
+    userList.push_back(newUser);
+    userMap.insert(pair<string, User>(newUser.ID, newUser));
 }
 
 bool emailVerifier(const string& email){

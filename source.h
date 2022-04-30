@@ -1,6 +1,7 @@
 #ifndef SOURCE_H
 #define SOURCE_H
 
+// -------------Includes-------------
 #include <iostream>
 #include <map>
 #include <iostream>
@@ -11,6 +12,7 @@
 
 using namespace std;
 
+// -------------Sructures and Classes-------------
 struct User {
     string ID; // should be a string to avoid unwanted changes, also not to be restricted by a limit
     string email;
@@ -20,6 +22,15 @@ struct User {
     // no need for intitalization
 };
 
+
+// -------------Declarations-------------
+vector<User> userList;
+map<string, User> userMap;
+
+
+
+
+// -------------Prototypes-------------
 ostream& operator<< (ostream& out, const User& user);
 istream& operator>> (istream& in, User& user);
 void Register();

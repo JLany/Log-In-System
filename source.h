@@ -1,6 +1,7 @@
 #ifndef SOURCE_H
 #define SOURCE_H
 
+
 // -------------Includes-------------
 #include <iostream>
 #include <map>
@@ -10,6 +11,7 @@
 #include <regex>
 #include <vector>
 #include <conio.h>
+
 
 using namespace std;
 
@@ -24,8 +26,8 @@ struct User {
     // no need for intitalization
 };
 
-vector<User> userList;
-map<string, User> userMap;
+extern vector<User> userList;
+extern map<string, User> userMap;
 
 
 
@@ -40,9 +42,11 @@ bool emailVerifier(const string&);
 bool phoneVerifier(const string&);
 
 void displayPassReq();
-string takePassword();
+std::string takePassword();
 void loadProfileData();
-string hiddenInput();
+std::string hiddenInput();
+bool isValidPass(const string&);
+bool isStrongPass(const string&);
 
 
 #endif

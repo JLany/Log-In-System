@@ -54,8 +54,7 @@ void Register() {
     // take mobile number and verify it
     // take password and verify: {Strength, repeat it, using allowed charcters}
 
-    userList.push_back(newUser);
-    userMap.insert(pair<string, User>(newUser.ID, newUser));
+    // saveProfileData(newUser.ID, newUser);
 }
 
 bool emailVerifier(const string& email){

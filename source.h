@@ -42,6 +42,7 @@ bool phoneVerifier(const string&);
 void displayPassReq();
 string takePassword();
 void loadProfileData();
+string hiddenInput();
 
 
 #endif

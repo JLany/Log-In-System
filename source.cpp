@@ -93,6 +93,28 @@ string takePassword() {
 }
 
 
+string hiddenInput() {
+	string input;
+	char chr;
+	chr = _getch();
+	while ((int)chr != 13) { // ascii of newline
+		if ((int)chr == 8) { // ascii of Backsapce
+			cout << '\b' << ' ' << '\b'; // '\b' pushs the cursor 1 step back
+			input.pop_back();			 // and then ' ' erases the last charcter
+			chr = _getch();
+			continue;
+		}
+		else {
+			input += chr;
+			cout << '*';
+		}
+		chr = _getch();
+	}
+	cout << endl;
+
+	return input;
+}
+
 
 
 

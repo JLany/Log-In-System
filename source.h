@@ -9,10 +9,12 @@
 #include <fstream>
 #include <regex>
 #include <vector>
+#include <conio.h>
 
 using namespace std;
 
-// -------------Sructures and Classes-------------
+
+// -------------Declarations-------------
 struct User {
     string ID; // should be a string to avoid unwanted changes, also not to be restricted by a limit
     string email;
@@ -22,8 +24,6 @@ struct User {
     // no need for intitalization
 };
 
-
-// -------------Declarations-------------
 vector<User> userList;
 map<string, User> userMap;
 

@@ -1,5 +1,8 @@
 #include "source.h"
 
+vector<User> userList;
+map<string, User> userMap;
+
 void loadProfileData() {
     fstream dataSource;
     User newUser;
@@ -99,7 +102,7 @@ string takePassword() {
 
 bool isValidPass(const string& password) {
     // regex validPass;
-    // validPass = "[a-zA-Z0-9]";
+    // validPass = "[a-zA-Z0-9]"; // do not allow '<', '>'!
     // return regex_match(password, validPass);
     return true;
 }

@@ -58,8 +58,7 @@ ostream& operator<< (ostream& out, const User& user) {
     out << user.username << ' ';
     out << user.password << ' ';
     out << user.email << ' ';
-    out << user.phoneNumber << ' ';
-    out << endl;
+    out << user.phoneNumber << endl;
     return out;
 }
 

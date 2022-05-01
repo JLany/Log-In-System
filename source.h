@@ -44,6 +44,8 @@ bool phoneVerifier(const string&);
 void displayPassReq();
 string takePassword();
 void loadProfileData();
+void saveProfileData();
+void saveProfileData(User&);
 string hiddenInput();
 bool isValidPass(const string&);
 bool isStrongPass(const string&);

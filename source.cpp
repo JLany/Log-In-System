@@ -22,6 +22,35 @@ void loadProfileData() {
 }
 
 
+void saveProfileData() {
+    fstream dataTarget;
+
+    dataTarget.open("userDataSample.txt", ios::out);
+
+    for (User& user : userList) {
+        dataTarget << user;
+    }
+
+    dataTarget.close();
+}
+
+
+void saveProfileData(User& newUser) {
+    fstream dataTarget;
+
+    userList.push_back(newUser);
+    userMap.insert(pair<string, User>(newUser.ID, newUser));
+
+    dataTarget.open("userDataSample.txt", ios::out);
+
+    for (User& user : userList) {
+        dataTarget << user;
+    }
+
+    dataTarget.close();
+} 
+
+
 
 ostream& operator<< (ostream& out, const User& user) {
     // Encryption of password may occur here
@@ -57,7 +86,7 @@ void Register() {
     // take mobile number and verify it
     // take password and verify: {Strength, repeat it, using allowed characters}
 
-    // saveProfileData(newUser.ID, newUser);
+    saveProfileData(newUser);
 }
 
 bool emailVerifier(const string& email){
@@ -106,6 +135,11 @@ bool isValidPass(const string& password) {
     return regex_match(password, validPass);
 }
 
+
+bool isStrongPass(const string& password) {
+    regex strongPass("");
+    return regex_match(password, strongPass);
+}
 
 
 string hiddenInput() {

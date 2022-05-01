@@ -19,10 +19,10 @@ using namespace std;
 // -------------Declarations-------------
 struct User {
     string ID; // should be a string to avoid unwanted changes, also not to be restricted by a limit
-    string email;
-    string phoneNumber; // same thing here 
     string username; 
     string password;
+    string email;
+    string phoneNumber; // same thing here 
     // no need for intitalization
 };
 

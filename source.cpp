@@ -52,7 +52,7 @@ void Register() {
     // take E-mail and verify its format and non-use before
     // take username and verify it
     // take mobile number and verify it
-    // take password and verify: {Strength, repeat it, using allowed charcters}
+    // take password and verify: {Strength, repeat it, using allowed characters}
 
     // saveProfileData(newUser.ID, newUser);
 }
@@ -75,25 +75,35 @@ bool phoneVerifier(const string& phoneNum){
 
 
 void displayPassReq() {
-    
+    cout << "Password should at least have one Capital letter, one small letter,\n";
+    cout << "one digit, one symbol, and at least 8 characters long.\n";
 }
 
 
 string takePassword() {
     string password, passAgain = "";
-    cout << "Password should at least have one Capital letter, one small letter,\n";
-    cout << "one digit, one symbol, and at least 8 charcters long.\n";
+    displayPassReq();
     cout << "Password: ";
-    cin >> password; // password = hiddenInput();
-    // isValidPass(); isStrongPass();
+    password = hiddenInput();
+    // isValidPass(password);
+    // isStrongPass(password);
     cout << "Repeat your Password: ";
-    cin >> passAgain; // passAgain = hiddenInput();
+    passAgain = hiddenInput();
     while (password != passAgain) {
         cout << "Make sure you enter the same password twice! : ";
-        cin >> passAgain; // passAgain = hiddenInput();
+        passAgain = hiddenInput();
     }
     return password;
 }
+
+
+bool isValidPass(const string& password) {
+    // regex validPass;
+    // validPass = "[a-zA-Z0-9]";
+    // return regex_match(password, validPass);
+    return true;
+}
+
 
 
 string hiddenInput() {

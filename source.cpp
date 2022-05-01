@@ -80,11 +80,12 @@ bool phoneVerifier(const string& phoneNum){
 void displayPassReq() {
     cout << "Password should at least have one Capital letter, one small letter,\n";
     cout << "one digit, one symbol, and at least 8 characters long.\n";
+    cout << "Allowed symbols: #!%$‘&+*/=@?^_`.{|}~\n";
 }
 
 
 string takePassword() {
-    string password, passAgain = "";
+    string password, passAgain;
     displayPassReq();
     cout << "Password: ";
     password = hiddenInput();
@@ -101,10 +102,8 @@ string takePassword() {
 
 
 bool isValidPass(const string& password) {
-    // regex validPass;
-    // validPass = "[a-zA-Z0-9]"; // do not allow '<', '>'!
-    // return regex_match(password, validPass);
-    return true;
+    regex validPass("[#!%$‘&+*/=@?^_`.{|}~a-zA-Z0-9-]{8,100}");
+    return regex_match(password, validPass);
 }
 
 
@@ -112,19 +111,23 @@ bool isValidPass(const string& password) {
 string hiddenInput() {
 	string input;
 	char chr;
-	chr = _getch();
-	while ((int)chr != 13) { // ascii of newline
+	while (true) { 
+        chr = _getch();
+        if ((int)chr == 13) { // ascii of newline
+            break;
+        }
 		if ((int)chr == 8) { // ascii of Backsapce
+            if (input.length() < 1) { // to avoid unwanted erasing
+                // chr = _getch();
+                continue;
+            }
 			cout << '\b' << ' ' << '\b'; // '\b' pushs the cursor 1 step back
 			input.pop_back();			 // and then ' ' erases the last charcter
-			chr = _getch();
+			// chr = _getch();
 			continue;
 		}
-		else {
-			input += chr;
-			cout << '*';
-		}
-		chr = _getch();
+        input += chr;
+        cout << '*';
 	}
 	cout << endl;
 

@@ -81,13 +81,16 @@ void displayPassReq() {
 
 string takePassword() {
     string password, passAgain = "";
+    cout << "Password should at least have one Capital letter, one small letter,\n";
+    cout << "one digit, one symbol, and at least 8 charcters long.\n";
     cout << "Password: ";
-    cin >> password;
+    cin >> password; // password = hiddenInput();
+    // isValidPass(); isStrongPass();
     cout << "Repeat your Password: ";
-    cin >> passAgain;
+    cin >> passAgain; // passAgain = hiddenInput();
     while (password != passAgain) {
         cout << "Make sure you enter the same password twice! : ";
-        cin >> passAgain;
+        cin >> passAgain; // passAgain = hiddenInput();
     }
     return password;
 }

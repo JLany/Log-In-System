@@ -42,9 +42,9 @@ bool emailVerifier(const string&);
 bool phoneVerifier(const string&);
 
 void displayPassReq();
-std::string takePassword();
+string takePassword();
 void loadProfileData();
-std::string hiddenInput();
+string hiddenInput();
 bool isValidPass(const string&);
 bool isStrongPass(const string&);
 

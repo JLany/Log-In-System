@@ -41,14 +41,15 @@ void changePassword();
 bool emailVerifier(const string&);
 bool phoneVerifier(const string&);
 
-void displayPassReq();
-string takePassword();
 void loadProfileData();
 void saveProfileData();
 void saveProfileData(User&);
+void displayPassReq();
+string takePassword();
 string hiddenInput();
 bool isValidPass(const string&);
-bool isStrongPass(const string&);
+bool isStrongPass(string);
+void sortStr(string&);
 
 
 #endif

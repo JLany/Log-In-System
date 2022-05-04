@@ -53,9 +53,9 @@ void saveProfileData(User& newUser) {
 
 
 ostream& operator<< (ostream& out, const User& user) {
-    // Encryption of password may occur here
     out << user.ID << ' ';
     out << user.username << ' ';
+    // Encryption of password may occur here
     out << user.password << ' ';
     out << user.email << ' ';
     out << user.phoneNumber << endl;
@@ -70,6 +70,7 @@ istream& operator>> (istream& in, User& user) {
     in >> user.ID;
     in >> user.username;
     in >> user.password;
+    // decryption of password may occur here
     in >> user.email;
     in >> user.phoneNumber;
     return in;
@@ -83,7 +84,7 @@ void Register() {
     // take E-mail and verify its format and non-use before
     // take username and verify it
     // take mobile number and verify it
-    // take password and verify: {Strength, repeat it, using allowed characters}
+    newUser.password = takePassword();
 
     saveProfileData(newUser);
 }
@@ -108,17 +109,27 @@ bool phoneVerifier(const string& phoneNum){
 void displayPassReq() {
     cout << "Password should at least have one Capital letter, one small letter,\n";
     cout << "one digit, one symbol, and at least 8 characters long.\n";
-    cout << "Allowed symbols: #!%$‘&+*/=@?^_`.{|}~\n";
+    cout << "Allowed symbols: !#$%&*+-\n";
 }
 
 
 string takePassword() {
-    string password, passAgain;
+    string password, passAgain = "";
     displayPassReq();
     cout << "Password: ";
     password = hiddenInput();
-    // isValidPass(password);
-    // isStrongPass(password);
+    while (!isValidPass(password)) {
+        cout << "Invalid Charcters used!\n";
+        displayPassReq();
+        cout << "Password: ";
+        password = hiddenInput();
+    }
+    while (!isStrongPass(password)) {
+        cout << "Weak Password, make sure you follow rules:\n";
+        displayPassReq();
+        cout << "Password: ";
+        password = hiddenInput();
+    }
     cout << "Repeat your Password: ";
     passAgain = hiddenInput();
     while (password != passAgain) {
@@ -130,16 +141,26 @@ string takePassword() {
 
 
 bool isValidPass(const string& password) {
-    regex validPass("[#!%$‘&+*/=@?^_`.{|}~a-zA-Z0-9-]{8,100}");
+    regex validPass("[!#$%&*+a-zA-Z0-9-]{8,100}");
     return regex_match(password, validPass);
 }
 
 
-bool isStrongPass(const string& password) {
-    regex strongPass("");
+bool isStrongPass(string password) {
+    regex strongPass("[!#$%&*+-]+[0-9]+[A-Z]+[a-z]+");
+    sortStr(password);
     return regex_match(password, strongPass);
 }
 
+void sortStr(string& str) {
+    for (int i = 0; i < str.length() - 1; i++) {
+        for (int j = 0; j < str.length() - 1 - i; j++) {
+            if (str[j] > str[j+1]) {
+                swap(str[j], str[j+1]);
+            }
+        }
+    }
+}
 
 string hiddenInput() {
 	string input;
@@ -151,12 +172,10 @@ string hiddenInput() {
         }
 		if ((int)chr == 8) { // ascii of Backsapce
             if (input.length() < 1) { // to avoid unwanted erasing
-                // chr = _getch();
                 continue;
             }
-			cout << '\b' << ' ' << '\b'; // '\b' pushs the cursor 1 step back
+			cout << '\b' << ' ' << '\b'; // '\b' pushes the cursor 1 step back
 			input.pop_back();			 // and then ' ' erases the last charcter
-			// chr = _getch();
 			continue;
 		}
         input += chr;

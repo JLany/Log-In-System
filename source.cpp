@@ -129,7 +129,7 @@ string takePassword() {
     cout << "Password: ";
     password = hiddenInput();
     while (!isValidPass(password)) {
-        cout << "Invalid Charcters used!\n";
+        cout << "Invalid Password!\n";
         displayPassReq();
         cout << "Password: ";
         password = hiddenInput();
@@ -141,7 +141,6 @@ string takePassword() {
         password = hiddenInput();
     }
     cout << "Repeat your Password: ";
-    passAgain = hiddenInput();
     while (password != passAgain) {
         cout << "Make sure you enter the same password twice! : ";
         passAgain = hiddenInput();

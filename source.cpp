@@ -24,8 +24,8 @@ void loadProfileData() {
         userList.push_back(newUser);
         userMap.insert(pair<string, User>(
             userList[userList.size() - 1].ID, userList[userList.size() - 1]
-                )
-            );
+            )
+        );
     }
 
     dataSource.close();
@@ -99,7 +99,7 @@ void Register() {
     saveProfileData(newUser);
 }
 
-bool emailVerifier(const string& email){
+bool emailVerifier(const string& email) {
     string local = "[#!%$‘&+*/=?^_`.{|}~a-zA-Z0-9-]{1,62}";
     string preDot = "[a-zA-Z0-9-]{0,61}";
     string postDot = "[a-zA-Z]{2,4}";
@@ -195,7 +195,30 @@ string hiddenInput() {
 	return input;
 }
 
-
+void logIn() {
+    printf("Enter ID: ");
+    string id; cin >> id;
+    printf("Enter Password: ");
+    string pass = hiddenInput();
+    if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered ID
+        User user = userMap[id];                                //if found stores the data in struct to check pass and display results
+        if (user.password == pass) {
+            printf("Log in successful\nWelcome ");
+            cout << user.username;
+            //cout << user;           //display all userinfo after successful login
+        }
+        else {
+            printf("Invalid ID or Password. Please try again\n");
+            //printf("pass error\n");
+            return logIn();
+        }
+    }
+    else {
+        printf("Invalid ID or Password. Please try again\n");
+        //printf("User error\n");
+        return logIn();
+    }
+}
 
 
 

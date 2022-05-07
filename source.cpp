@@ -37,8 +37,8 @@ void saveProfileData() {
 
     dataTarget.open("userDataSample.txt", ios::out);
 
-    for (User& user : userList) {
-        dataTarget << user;
+    for (pair<string, User> user : userMap) {
+        dataTarget << user.second;
     }
 
     dataTarget.close();
@@ -194,18 +194,17 @@ string hiddenInput() {
 
 	return input;
 }
-
+string id;
 bool logIn() {
     int trials = 3;
     while (trials--) {
         printf("Enter ID: ");
-        string id; cin >> id;
+        cin >> id;
         printf("Enter Password: ");
         string pass = hiddenInput();
         if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered ID
             User user = userMap[id];                                //if found stores the data in struct to check pass and display results
             if (user.password == pass) {
-                trials = 0;
                 printf("Log in successful\nWelcome ");
                 cout << user.username << '\n';
                 return 1;
@@ -223,7 +222,27 @@ bool logIn() {
     return 0;
 }
 
-
+void changePassword() {
+    printf("Enter old Password: ");
+    string oldpass = hiddenInput();
+    if (oldpass != userMap[id].password) {      //check if old pass is entered correctly
+        printf("Old password does not match.\n");
+        return changePassword();
+    }
+    
+    while (true) {              //loop till a new password is entered correctly
+        printf("Enter new Password.\n");
+        string npass = takePassword();
+        if (npass == oldpass) {     //check if new pass is different from old pass
+            printf("New Password must not be the same as Old Password.\n");
+        }
+        else {
+            printf("Password changed successfully.\n");
+            userMap[id].password = npass;       //overwrite password
+            break;
+        }
+    }
+}
 
 // was a trial to open the file, read line by line, save each line in the user Cstring
 // then finally create an id to compare it to the id entered in the register function in the struct User

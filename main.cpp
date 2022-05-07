@@ -12,8 +12,9 @@
 
 int main() {
     // loadProfileData();
-
-
+    
+    
+   
 //     bool run = true;
 
 //     while(run){
@@ -28,7 +29,11 @@ int main() {
 // //                logIn();
 // //                break;
 // //            case '3':
-// //                changePassword();
+// //                if (logIn() == 1) {
+//                        changePassword();
+//                    }
+//                    else
+//                        printf("Invalid Log In.\n");
 // //                break;
 //             case '4':
 //                 run = false;

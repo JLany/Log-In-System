@@ -195,29 +195,32 @@ string hiddenInput() {
 	return input;
 }
 
-void logIn() {
-    printf("Enter ID: ");
-    string id; cin >> id;
-    printf("Enter Password: ");
-    string pass = hiddenInput();
-    if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered ID
-        User user = userMap[id];                                //if found stores the data in struct to check pass and display results
-        if (user.password == pass) {
-            printf("Log in successful\nWelcome ");
-            cout << user.username;
-            //cout << user;           //display all userinfo after successful login
+bool logIn() {
+    int trials = 3;
+    while (trials--) {
+        printf("Enter ID: ");
+        string id; cin >> id;
+        printf("Enter Password: ");
+        string pass = hiddenInput();
+        if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered ID
+            User user = userMap[id];                                //if found stores the data in struct to check pass and display results
+            if (user.password == pass) {
+                trials = 0;
+                printf("Log in successful\nWelcome ");
+                cout << user.username << '\n';
+                return 1;
+                //cout << user;           //display all userinfo after successful login
+            }
+            else {
+                printf("Invalid ID or Password. Please try again\n");       // password error
+            }
         }
         else {
-            printf("Invalid ID or Password. Please try again\n");
-            //printf("pass error\n");
-            return logIn();
+            printf("Invalid ID or Password. Please try again\n");       //ID error
         }
     }
-    else {
-        printf("Invalid ID or Password. Please try again\n");
-        //printf("User error\n");
-        return logIn();
-    }
+    printf("Access Denied.\n");
+    return 0;
 }
 
 

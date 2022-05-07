@@ -46,7 +46,7 @@ extern map<string, User> userMap;
 ostream& operator<< (ostream& out, const User& user);
 istream& operator>> (istream& in, User& user);
 void Register();
-void logIn();
+bool logIn();
 void changePassword();
 bool emailVerifier(const string&);
 bool phoneVerifier(const string&);

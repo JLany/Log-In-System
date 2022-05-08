@@ -86,14 +86,15 @@ istream& operator>> (istream& in, User& user) {
 
 void Register() {
     User newUser;
-    cout << "Username:\n";
+    cout << "Username (letters and '-' are only allowed):\n";
     cin >> newUser.username;
     while(!usernameVerifier(newUser.username)){
         cout << "Please enter a proper username including letters and '-' ONLY." << endl;
         cin >> newUser.username;
     }
 
-    newUser.name = takeName();
+    cout << "Name:\n";
+    cin >> newUser.name;
 
     cout << "Email:\n";
     cin >> newUser.email;
@@ -119,15 +120,6 @@ void Register() {
 }
 
 
-string takeName() {
-    string name;
-    cout << "Name: ";
-    cin >> name;
-    return name;
-}
-
-
-
 bool emailVerifier(const string& email) {
     string local = "[#!%$‘&+*/=?^_`.{|}~a-zA-Z0-9-]{1,62}";
     string preDot = "[a-zA-Z0-9-]{0,61}";
@@ -144,28 +136,26 @@ bool validateRegistration(map<string, User> myUsers, User& newUser){
     bool validUsername = false, validEmail = false;
     map<string, User>::iterator ptr; // pointer to map
     for (ptr = myUsers.begin(); ptr != myUsers.end(); ++ptr) {
-        while (newUser.email == ptr -> first) { // (first) refers to key
+        if (emailRepeated(newUser.email, newUser)){
             cout << "This Email is already registered!\nPlease enter a new Email account:\n";
             cin >> newUser.email;
+            return validateRegistration(userMap, newUser);
         }
         validEmail = true;
-        while (newUser.username == (ptr -> second).username) { // (second) refers to value
-            cout << "Username has been taken!\nPlease enter a different username:\n";
+
+        if (usernameRepeated(newUser.username, newUser)){
+            cout << "This username has been taken!\nPlease enter a new username:\n";
             cin >> newUser.username;
-            while(!usernameVerifier(newUser.username)){
-                cout << "Please enter a proper username including letters and '-' ONLY." << endl;
-                cin >> newUser.username;
-            }
+            return validateRegistration(userMap, newUser);
         }
         validUsername = true;
-        // there is no point in telling the user the password exists, we are violating other users' info if so!
+
     }
-    if(validUsername && validEmail)
+    if(validEmail && validUsername)
         return true;
     else
         return false;
 }
-
 
 
 bool phoneVerifier(const string& phoneNum){
@@ -184,6 +174,26 @@ void displayPassReq() {
     cout << "Password should at least have one Capital letter, one small letter,\n";
     cout << "one digit, one symbol, and at least 8 characters long.\n";
     cout << "Allowed symbols: !#$%&*+-\n";
+}
+
+
+bool emailRepeated(const string& email, User& nUser){
+    for (auto& username : userMap) {
+        if (nUser.email == username.second.email){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+bool usernameRepeated(const string&, User& nUser){
+    for (auto& username : userMap) {
+        if (nUser.username == username.second.username){
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -355,6 +365,26 @@ string decryption(string msg) {
 	}
 	return msg;
 }
+
+
+
+
+
+//while (newUser.email == (ptr -> second).email) { // (second) refers to value
+//            cout << "This Email is already registered!\nPlease enter a new Email account:\n";
+//            cin >> newUser.email;
+//        }
+//        validEmail = true;
+//        while (newUser.username == (ptr -> second).username) { // (second) refers to value
+//            cout << "Username has been taken!\nPlease enter a different username:\n";
+//            cin >> newUser.username;
+//            while(!usernameVerifier(newUser.username)){
+//                cout << "Please enter a proper username including letters and '-' ONLY." << endl;
+//                cin >> newUser.username;
+//            }
+//        }
+//        validUsername = true;
+// there is no point in telling the user the password exists, we are violating other users' info if so!
 
 
 void cleanStream(istream& stream) { // if someone fancy using it, 

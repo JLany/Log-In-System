@@ -28,8 +28,8 @@ using namespace std;
 
 // -------------Declarations-------------
 struct User {
-    string username; 
-    string name; 
+    string username; // should be a string to avoid unwanted changes, also not to be restricted by a limit
+    string name;
     string password;
     string email;
     string phoneNumber;
@@ -46,12 +46,13 @@ istream& operator>> (istream&, User&);
 void Register();
 bool logIn();
 void changePassword();
+
 bool emailVerifier(const string&);
 bool phoneVerifier(const string&);
 bool usernameVerifier(const string&);
 bool validateRegistration(map<string, User>, User&);
-string takeName();
-
+bool emailRepeated(const string&, User&);
+bool usernameRepeated(const string&, User&);
 void loadProfileData();
 void saveProfileData();
 void saveProfileData(User&);

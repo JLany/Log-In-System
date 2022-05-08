@@ -1,9 +1,9 @@
 // FCAI – Programming 1 – 2022 - Assignment 4
 // Program Name: Log-In-System.cpp | implementation
 // Last Modification Date: xx/xx/xxxx
-// Author1 and username and Group: Yousef Kilany | 20210544 | S25
-// Author2 and username and Group: xxxxx xxxxx
-// Author3 and username and Group: xxxxx xxxxx
+// Author1 and ID and Group: Yousef Kilany | 20210544 | S25
+// Author2 and ID and Group: Maya Ayman Zain El-Din | 20210508 | S25
+// Author3 and ID and Group: xxxxx xxxxx
 // Teaching Assistant: Eng. Mahmoud Fateaha
 // Purpose:..........
 
@@ -73,7 +73,7 @@ ostream& operator<< (ostream& out, const User& user) {
 
 istream& operator>> (istream& in, User& user) {
     // probably this overload will only be used to load from file
-    // using it for registeration is not ideal
+    // using it for registration is not ideal
     in >> user.username;
     in >> user.fullName;
     in >> user.password;
@@ -87,16 +87,37 @@ istream& operator>> (istream& in, User& user) {
 
 void Register() {
     User newUser;
-    // take username and verify it
-    // take E-mail and verify its format and non-use before
-    // take fullName and verify it
-    // take mobile number and verify it
+    cout << "Username:\n";
+    cin >> newUser.username;
+    while(!usernameVerifier(newUser.username)){
+        cout << "Please enter a proper username including letters and '-' ONLY." << endl;
+        cin >> newUser.username;
+    }
+
+    cout << "Email:\n";
+    cin >> newUser.email;
+    while(!emailVerifier(newUser.email)){
+        cout << "Please enter a valid email." << endl;
+        cin >> newUser.email;
+    }
+
+    cout << "Phone Number:\n";
+    cin >> newUser.phoneNumber;
+    while(!phoneVerifier(newUser.phoneNumber)){
+        cout << "Please enter a valid phone number." << endl;
+        cin >> newUser.phoneNumber;
+    }
+
     newUser.password = takePassword();
 
-    saveProfileData(newUser);
+    if (validateRegistration(userMap, newUser))
+    {
+        cout << "You have registered successfully!" << endl;
+        saveProfileData(newUser);
+    }
 }
 
-bool emailVerifier(const string& email) {
+bool emailVerifier(const string& email){
     string local = "[#!%$‘&+*/=?^_`.{|}~a-zA-Z0-9-]{1,62}";
     string preDot = "[a-zA-Z0-9-]{0,61}";
     string postDot = "[a-zA-Z]{2,4}";
@@ -107,9 +128,44 @@ bool emailVerifier(const string& email) {
 
 }
 
+
+bool validateRegistration(map<string, User> myUsers, User& newUser){
+    bool validUsername = false, validEmail = false;
+    map<string, User>::iterator ptr; // pointer to map
+    for (ptr = myUsers.begin(); ptr != myUsers.end(); ++ptr) {
+        while (newUser.email == ptr -> first) { // (first) refers to key
+            cout << "This Email is already registered!\nPlease enter a new Email account:\n";
+            cin >> newUser.email;
+        }
+        validEmail = true;
+        while (newUser.username == (ptr -> second).username) { // (second) refers to value
+            cout << "Username has been taken!\nPlease enter a different username:\n";
+            cin >> newUser.username;
+            while(!usernameVerifier(newUser.username)){
+                cout << "Please enter a proper username including letters and '-' ONLY." << endl;
+                cin >> newUser.username;
+            }
+        }
+        validUsername = true;
+        // there is no point in telling the user the password exists, we are violating other users' info if so!
+    }
+    if(validUsername && validEmail)
+        return true;
+    else
+        return false;
+}
+
+
+
 bool phoneVerifier(const string& phoneNum){
     regex validPhone("[0][1][0|1|2|5][0-9]{8}");
     return regex_match(phoneNum, validPhone);
+}
+
+
+bool usernameVerifier(const string& username){
+    regex validUsername("[a-zA-Z-]+");
+    return regex_match(username, validUsername);
 }
 
 
@@ -123,23 +179,24 @@ void displayPassReq() {
 string takePassword() {
     string password, passAgain = "";
     displayPassReq();
-    cout << "Password: ";
+    cout << "Password:\n";
     password = hiddenInput();
     while (!isValidPass(password)) {
         cout << "Invalid Password!\n";
         displayPassReq();
-        cout << "Password: ";
+        cout << "Password:\n";
         password = hiddenInput();
     }
     while (!isStrongPass(password)) {
-        cout << "Weak Password, make sure you follow rules:\n";
+        cout << "Weak Password! Make sure you follow rules:\n";
         displayPassReq();
-        cout << "Password: ";
+        cout << "Password:\n";
         password = hiddenInput();
     }
-    cout << "Repeat your Password: ";
+    cout << "Repeat your Password:\n";
+    passAgain = hiddenInput();
     while (password != passAgain) {
-        cout << "Make sure you enter the same password twice! : ";
+        cout << "Make sure you enter the same password twice!:\n";
         passAgain = hiddenInput();
     }
     return password;
@@ -176,12 +233,12 @@ string hiddenInput() {
         if ((int)chr == 13) { // ascii of newline
             break;
         }
-		if ((int)chr == 8) { // ascii of Backsapce
+		if ((int)chr == 8) { // ascii of Backspace
             if (input.length() < 1) { // to avoid unwanted erasing
                 continue;
             }
 			cout << '\b' << ' ' << '\b'; // '\b' pushes the cursor 1 step back
-			input.pop_back();			 // and then ' ' erases the last charcter
+			input.pop_back();			 // and then ' ' erases the last character
 			continue;
 		}
         input += chr;
@@ -191,13 +248,15 @@ string hiddenInput() {
 
 	return input;
 }
+
+
 string id;
 bool logIn() {
     int trials = 3;
     while (trials--) {
-        printf("Enter username: ");
+        printf("Enter username:\n");
         cin >> id;
-        printf("Enter Password: ");
+        printf("Enter Password:\n");
         string pass = hiddenInput();
         if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered username
             User user = userMap[id];                                //if found stores the data in struct to check pass and display results
@@ -219,14 +278,15 @@ bool logIn() {
     return 0;
 }
 
+
 void changePassword() {
-    printf("Enter old Password: ");
+    printf("Enter old Password:\n");
     string oldpass = hiddenInput();
     if (oldpass != userMap[id].password) {      //check if old pass is entered correctly
         printf("Old password does not match.\n");
         return changePassword();
     }
-    
+
     while (true) {              //loop till a new password is entered correctly
         printf("Enter new Password.\n");
         string npass = takePassword();
@@ -239,56 +299,5 @@ void changePassword() {
             break;
         }
     }
+    saveProfileData();
 }
-
-// was a trial to open the file, read line by line, save each line in the user Cstring
-// then finally create an id to compare it to the id entered in the register function in the struct User
-
-    //    char user[151];
-    //    string currentId;
-    //    ifstream database("userData.sample.txt");
-    //    database.getline(user, 151);
-    //    while (!database.eof()) {
-    //        database.getline(user, 151);
-    //        for (char i : user) {
-    //            if (i != 0)
-    //                currentId += i;
-    //            else
-    //                break;
-    //        }
-    //        cout << currentId << endl;
-    //    }
-    //    database.close();
-
-// Another way is to load the first line as a whole into the struct as parameters no idea how then compare the id
-
-
-
-
-
-
-
-
-
-
-
-//    if (userInput == "1") {
-//        //write user info to file ----> needs adjustment
-//        //-----------------
-//        User p1;
-//        cin >> p1;
-//        ofstream userlist;
-//        userlist.open("userlist.txt", ios::app);
-//        userlist << p1.name << endl << p1.age << endl << p1.id << endl << p1.password << endl;
-//        userlist.close();
-//    }
-//    else if (userInput == "2") {
-//        //read all users from userlist ---> needs adjustment to find specific user
-//        //------------------
-//        auto file = ifstream("userlist.txt");
-//        vector<User> user;                                 //store users in vector.
-//        for (User person; file >> person;)
-//            user.push_back(person);
-//        for (auto const& person : user)                     //prints each user full information
-//            cout << person;
-//    }

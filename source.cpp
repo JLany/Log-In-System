@@ -12,11 +12,15 @@
 
 map<string, User> userMap;
 
-void loadProfileData() {
+int loadProfileData() {
     fstream dataSource;
     User newUser;
 
     dataSource.open("userDataSample.txt", ios::in);
+
+    if (dataSource.fail()) {
+        return 0;
+    }
 
     while (!dataSource.eof()) {
         dataSource >> newUser;
@@ -28,6 +32,7 @@ void loadProfileData() {
     }
 
     dataSource.close();
+    return 1;
 }
 
 
@@ -347,7 +352,7 @@ string encryption(string msg) {
 
 string decryption(string msg) {
 	int lenm = msg.length();
-	string keyword = "test";					// change the keyword to anything
+	string keyword = "anything";					// change the keyword to anything
 	int lenk = keyword.length();
 	for (int i = 0, j = 0; i < lenm; i++, j++) {
 		if (j >= lenk) j = 0;

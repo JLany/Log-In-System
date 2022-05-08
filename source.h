@@ -53,7 +53,7 @@ bool usernameVerifier(const string&);
 bool validateRegistration(map<string, User>, User&);
 bool emailRepeated(const string&, User&);
 bool usernameRepeated(const string&, User&);
-void loadProfileData();
+int loadProfileData();
 void saveProfileData();
 void saveProfileData(User&);
 void displayPassReq();

@@ -11,7 +11,10 @@
 #include "source.h"
 
 int main() {
-    loadProfileData();
+    if (!loadProfileData()) {
+        cout << "Failed to load user data. Aborting...";
+        return 0;
+    }
     bool run = true;
 
     while(run){

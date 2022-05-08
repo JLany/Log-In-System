@@ -144,6 +144,10 @@ bool validateRegistration(map<string, User> myUsers, User& newUser){
         if (emailRepeated(newUser.email, newUser)){
             cout << "This Email is already registered!\nPlease enter a new Email account:\n";
             cin >> newUser.email;
+            while(!emailVerifier(newUser.email)){
+                cout << "Please enter a valid email." << endl;
+                cin >> newUser.email;
+            }
             return validateRegistration(userMap, newUser);
         }
         validEmail = true;
@@ -151,6 +155,10 @@ bool validateRegistration(map<string, User> myUsers, User& newUser){
         if (usernameRepeated(newUser.username, newUser)){
             cout << "This username has been taken!\nPlease enter a new username:\n";
             cin >> newUser.username;
+            while(!usernameVerifier(newUser.username)){
+                cout << "Please enter a proper username including letters and '-' ONLY." << endl;
+                cin >> newUser.username;
+            }
             return validateRegistration(userMap, newUser);
         }
         validUsername = true;

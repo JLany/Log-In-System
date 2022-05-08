@@ -36,7 +36,6 @@ struct User {
     // no need for intitalization
 };
 
-extern vector<User> userList;
 extern map<string, User> userMap;
 
 

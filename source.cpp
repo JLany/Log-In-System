@@ -10,7 +10,6 @@
 
 #include "source.h"
 
-vector<User> userList;
 map<string, User> userMap;
 
 void loadProfileData() {
@@ -21,9 +20,8 @@ void loadProfileData() {
 
     while (!dataSource.eof()) {
         dataSource >> newUser;
-        userList.push_back(newUser);
         userMap.insert(pair<string, User>(
-            userList[userList.size() - 1].username, userList[userList.size() - 1]
+            newUser.username, newUser
             )
         );
     }
@@ -48,13 +46,12 @@ void saveProfileData() {
 void saveProfileData(User& newUser) {
     fstream dataTarget;
 
-    userList.push_back(newUser);
     userMap.insert(pair<string, User>(newUser.username, newUser));
 
     dataTarget.open("userDataSample.txt", ios::out);
 
-    for (User& user : userList) {
-        dataTarget << user;
+    for (pair<string, User> user : userMap) {
+        dataTarget << user.second;
     }
 
     dataTarget.close();

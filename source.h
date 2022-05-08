@@ -36,6 +36,7 @@ struct User {
 };
 
 extern map<string, User> userMap;
+extern string currentUserId;
 
 
 

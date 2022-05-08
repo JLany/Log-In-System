@@ -28,8 +28,8 @@ using namespace std;
 
 // -------------Declarations-------------
 struct User {
-    string ID; // should be a string to avoid unwanted changes, also not to be restricted by a limit
-    string username; 
+    string username; // should be a string to avoid unwanted changes, also not to be restricted by a limit
+    string fullName; 
     string password;
     string email;
     string phoneNumber; // same thing here 

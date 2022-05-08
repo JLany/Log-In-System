@@ -1,9 +1,9 @@
 // FCAI – Programming 1 – 2022 - Assignment 4
 // Program Name: Log-In-System.cpp | implementation
 // Last Modification Date: xx/xx/xxxx
-// Author1 and ID and Group: Yousef Kilany | 20210544 | S25
-// Author2 and ID and Group: xxxxx xxxxx
-// Author3 and ID and Group: xxxxx xxxxx
+// Author1 and username and Group: Yousef Kilany | 20210544 | S25
+// Author2 and username and Group: xxxxx xxxxx
+// Author3 and username and Group: xxxxx xxxxx
 // Teaching Assistant: Eng. Mahmoud Fateaha
 // Purpose:..........
 
@@ -23,7 +23,7 @@ void loadProfileData() {
         dataSource >> newUser;
         userList.push_back(newUser);
         userMap.insert(pair<string, User>(
-            userList[userList.size() - 1].ID, userList[userList.size() - 1]
+            userList[userList.size() - 1].username, userList[userList.size() - 1]
             )
         );
     }
@@ -49,7 +49,7 @@ void saveProfileData(User& newUser) {
     fstream dataTarget;
 
     userList.push_back(newUser);
-    userMap.insert(pair<string, User>(newUser.ID, newUser));
+    userMap.insert(pair<string, User>(newUser.username, newUser));
 
     dataTarget.open("userDataSample.txt", ios::out);
 
@@ -63,8 +63,8 @@ void saveProfileData(User& newUser) {
 
 
 ostream& operator<< (ostream& out, const User& user) {
-    out << user.ID << ' ';
     out << user.username << ' ';
+    out << user.fullName << ' ';
     // Encryption of password may occur here
     out << user.password << ' ';
     out << user.email << ' ';
@@ -77,8 +77,8 @@ ostream& operator<< (ostream& out, const User& user) {
 istream& operator>> (istream& in, User& user) {
     // probably this overload will only be used to load from file
     // using it for registeration is not ideal
-    in >> user.ID;
     in >> user.username;
+    in >> user.fullName;
     in >> user.password;
     // decryption of password may occur here
     in >> user.email;
@@ -90,9 +90,9 @@ istream& operator>> (istream& in, User& user) {
 
 void Register() {
     User newUser;
-    // take ID and verify it
-    // take E-mail and verify its format and non-use before
     // take username and verify it
+    // take E-mail and verify its format and non-use before
+    // take fullName and verify it
     // take mobile number and verify it
     newUser.password = takePassword();
 
@@ -198,24 +198,24 @@ string id;
 bool logIn() {
     int trials = 3;
     while (trials--) {
-        printf("Enter ID: ");
+        printf("Enter username: ");
         cin >> id;
         printf("Enter Password: ");
         string pass = hiddenInput();
-        if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered ID
+        if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered username
             User user = userMap[id];                                //if found stores the data in struct to check pass and display results
             if (user.password == pass) {
                 printf("Log in successful\nWelcome ");
-                cout << user.username << '\n';
+                cout << user.fullName << '\n';
                 return 1;
                 //cout << user;           //display all userinfo after successful login
             }
             else {
-                printf("Invalid ID or Password. Please try again\n");       // password error
+                printf("Invalid username or Password. Please try again\n");       // password error
             }
         }
         else {
-            printf("Invalid ID or Password. Please try again\n");       //ID error
+            printf("Invalid username or Password. Please try again\n");       //username error
         }
     }
     printf("Access Denied.\n");

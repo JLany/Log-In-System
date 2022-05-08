@@ -280,10 +280,9 @@ bool logIn() { // ambigeous function @_@
         printf("Enter Password:\n");
         string pass = hiddenInput();
         if (auto itr = userMap.find(id) != userMap.end()) {         // find position of the entered username
-            User user = userMap[id];                                //if found stores the data in struct to check pass and display results
-            if (user.password == pass) {
-                printf("Log in successful\nWelcome ");
-                cout << user.name << '\n';
+            if (userMap[id].password == pass) {                     // if found stores the data in struct to 
+                printf("Log in successful\nWelcome ");              // check pass and display results
+                cout << userMap[id].name << '\n';
                 //cout << user;           //display all userinfo after successful login
                 return 1;
                 
@@ -365,26 +364,6 @@ string decryption(string msg) {
 	}
 	return msg;
 }
-
-
-
-
-
-//while (newUser.email == (ptr -> second).email) { // (second) refers to value
-//            cout << "This Email is already registered!\nPlease enter a new Email account:\n";
-//            cin >> newUser.email;
-//        }
-//        validEmail = true;
-//        while (newUser.username == (ptr -> second).username) { // (second) refers to value
-//            cout << "Username has been taken!\nPlease enter a different username:\n";
-//            cin >> newUser.username;
-//            while(!usernameVerifier(newUser.username)){
-//                cout << "Please enter a proper username including letters and '-' ONLY." << endl;
-//                cin >> newUser.username;
-//            }
-//        }
-//        validUsername = true;
-// there is no point in telling the user the password exists, we are violating other users' info if so!
 
 
 void cleanStream(istream& stream) { // if someone fancy using it, 

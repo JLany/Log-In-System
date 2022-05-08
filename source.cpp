@@ -262,9 +262,9 @@ string hiddenInput() {
 		if ((int)chr == 8) { // ascii of Backspace
             if (input.length() < 1) { // to avoid unwanted erasing
                 continue;
-            }
-			cout << '\b' << ' ' << '\b'; // '\b' pushes the cursor 1 step back
-			input.pop_back();			 // and then ' ' erases the last character
+            }                            // '\b' pushes the cursor 1 step back
+			cout << '\b' << ' ' << '\b'; // and then ' ' erases the last character
+            input.pop_back(); // erase from actual input
 			continue;
 		}
         input += chr;

@@ -28,22 +28,20 @@ int main() {
             case '2':
                 logIn();
                 break;
-        case '3':
+            case '3':
             if (logIn() == 1) {
                 changePassword();
             }
             else
                 printf("Invalid Log In.\n");
+                break;
+            case '4':
+                run = false;
             break;
-        case '4':
-            run = false;
-            break;
-        default:
-            cout << "Please choose a valid option.\n";
-            return main();
+            default:
+                cout << "Please choose a valid option.\n";
         }
     }
-
     saveProfileData();
 }
 

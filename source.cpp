@@ -3,7 +3,7 @@
 // Last Modification Date: xx/xx/xxxx
 // Author1 and ID and Group: Yousef Kilany | 20210544 | S25
 // Author2 and ID and Group: Maya Ayman Zain El-Din | 20210508 | S25
-// Author3 and ID and Group: xxxxx xxxxx
+// Author3 and ID and Group: Mahmoud Adel | 20210563 | S25
 // Teaching Assistant: Eng. Mahmoud Fateaha
 // Purpose:..........
 
@@ -20,6 +20,7 @@ void loadProfileData() {
 
     while (!dataSource.eof()) {
         dataSource >> newUser;
+        newUser.password = decryption(newUser.password);
         userMap.insert(pair<string, User>(
             newUser.username, newUser
             )
@@ -36,6 +37,7 @@ void saveProfileData() {
     dataTarget.open("userDataSample.txt", ios::out);
 
     for (pair<string, User> user : userMap) {
+        user.second.password = encryption(user.second.password);
         dataTarget << user.second;
     }
 
@@ -51,6 +53,7 @@ void saveProfileData(User& newUser) {
     dataTarget.open("userDataSample.txt", ios::out);
 
     for (pair<string, User> user : userMap) {
+        user.second.password = encryption(user.second.password);
         dataTarget << user.second;
     }
 
@@ -263,8 +266,9 @@ bool logIn() {
             if (user.password == pass) {
                 printf("Log in successful\nWelcome ");
                 cout << user.fullName << '\n';
-                return 1;
                 //cout << user;           //display all userinfo after successful login
+                return 1;
+                
             }
             else {
                 printf("Invalid username or Password. Please try again\n");       // password error
@@ -300,4 +304,46 @@ void changePassword() {
         }
     }
     saveProfileData();
+}
+
+string encryption(string msg) {
+	int lenm = msg.length();
+	string keyword = "test";					// change the keyword to anything
+	int lenk = keyword.length();
+	for (int i = 0, j = 0; i < lenm; i++, j++) {
+		unsigned char m = msg[i];
+		if (j >= lenk) j = 0;
+		if (isupper(m)) {
+			m = m + (keyword[j] - 'a');
+			if (m > 90)
+				m -= 26;
+		}
+		if (islower(m)) {
+			m = m + (keyword[j] - 'a');
+			if (m > 122)
+				m = m - 26;
+		}
+		msg[i] = m;
+	}
+	return msg;
+}
+
+string decryption(string msg) {
+	int lenm = msg.length();
+	string keyword = "test";					// change the keyword to anything
+	int lenk = keyword.length();
+	for (int i = 0, j = 0; i < lenm; i++, j++) {
+		if (j >= lenk) j = 0;
+		if (isupper(msg[i])) {
+			msg[i] = msg[i] - (keyword[j] - 'a');
+			if (msg[i] < 65)
+				msg[i] += 26;
+		}
+		if (islower(msg[i])) {
+			msg[i] = msg[i] - (keyword[j] - 'a');
+			if (msg[i] < 97)
+				msg[i] += 26;
+		}
+	}
+	return msg;
 }

@@ -3,7 +3,7 @@
 // Last Modification Date: xx/xx/xxxx
 // Author1 and ID and Group: Yousef Kilany | 20210544 | S25
 // Author2 and ID and Group: Maya Ayman Zain El-Din | 20210508 | S25
-// Author3 and ID and Group: xxxxx xxxxx
+// Author3 and ID and Group: Mahmoud Adel | 20210563 | S25
 // Teaching Assistant: Eng. Mahmoud Fateaha
 // Purpose:..........
 
@@ -62,5 +62,6 @@ bool isValidPass(const string&);
 bool isStrongPass(string);
 void sortStr(string&);
 
-
+string encryption(string);
+string decryption(string);
 #endif

@@ -49,7 +49,7 @@ void saveProfileData(User& newUser) {
     fstream dataTarget;
 
     userMap.insert(pair<string, User>(newUser.username, newUser));
-
+    
     dataTarget.open("userDataSample.txt", ios::out);
 
     for (pair<string, User> user : userMap) {
@@ -64,8 +64,7 @@ void saveProfileData(User& newUser) {
 
 ostream& operator<< (ostream& out, const User& user) {
     out << user.username << ' ';
-    out << user.fullName << ' ';
-    // Encryption of password may occur here
+    out << user.name << ' ';
     out << user.password << ' ';
     out << user.email << ' ';
     out << user.phoneNumber << endl;
@@ -75,12 +74,9 @@ ostream& operator<< (ostream& out, const User& user) {
 
 
 istream& operator>> (istream& in, User& user) {
-    // probably this overload will only be used to load from file
-    // using it for registration is not ideal
     in >> user.username;
-    in >> user.fullName;
+    in >> user.name;
     in >> user.password;
-    // decryption of password may occur here
     in >> user.email;
     in >> user.phoneNumber;
     return in;
@@ -96,6 +92,8 @@ void Register() {
         cout << "Please enter a proper username including letters and '-' ONLY." << endl;
         cin >> newUser.username;
     }
+
+    newUser.name = takeName();
 
     cout << "Email:\n";
     cin >> newUser.email;
@@ -120,7 +118,17 @@ void Register() {
     }
 }
 
-bool emailVerifier(const string& email){
+
+string takeName() {
+    string name;
+    cout << "Name: ";
+    cin >> name;
+    return name;
+}
+
+
+
+bool emailVerifier(const string& email) {
     string local = "[#!%$‘&+*/=?^_`.{|}~a-zA-Z0-9-]{1,62}";
     string preDot = "[a-zA-Z0-9-]{0,61}";
     string postDot = "[a-zA-Z]{2,4}";
@@ -253,10 +261,10 @@ string hiddenInput() {
 }
 
 
-string id;
-bool logIn() {
+string id; // BAD
+bool logIn() { // ambigeous function @_@
     int trials = 3;
-    while (trials--) {
+    while (trials--) { 
         printf("Enter username:\n");
         cin >> id;
         printf("Enter Password:\n");
@@ -265,7 +273,7 @@ bool logIn() {
             User user = userMap[id];                                //if found stores the data in struct to check pass and display results
             if (user.password == pass) {
                 printf("Log in successful\nWelcome ");
-                cout << user.fullName << '\n';
+                cout << user.name << '\n';
                 //cout << user;           //display all userinfo after successful login
                 return 1;
                 
@@ -308,8 +316,8 @@ void changePassword() {
 
 string encryption(string msg) {
 	int lenm = msg.length();
-	string keyword = "test";					// change the keyword to anything
-	int lenk = keyword.length();
+	string keyword = "anything";					// change the keyword to anything
+	int lenk = keyword.length();                    // DONE
 	for (int i = 0, j = 0; i < lenm; i++, j++) {
 		unsigned char m = msg[i];
 		if (j >= lenk) j = 0;
@@ -346,4 +354,12 @@ string decryption(string msg) {
 		}
 	}
 	return msg;
+}
+
+
+void cleanStream(istream& stream) { // if someone fancy using it, 
+    string garbage;                 // here it is
+    while (!stream.fail()) {
+        stream >> garbage;
+    }
 }

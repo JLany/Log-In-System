@@ -28,12 +28,11 @@ using namespace std;
 
 // -------------Declarations-------------
 struct User {
-    string username; // should be a string to avoid unwanted changes, also not to be restricted by a limit
-    string fullName; 
+    string username; 
+    string name; 
     string password;
     string email;
-    string phoneNumber; // same thing here 
-    // no need for initialization
+    string phoneNumber;
 };
 
 extern map<string, User> userMap;
@@ -42,8 +41,8 @@ extern map<string, User> userMap;
 
 
 // -------------Prototypes-------------
-ostream& operator<< (ostream& out, const User& user);
-istream& operator>> (istream& in, User& user);
+ostream& operator<< (ostream&, const User&);
+istream& operator>> (istream&, User&);
 void Register();
 bool logIn();
 void changePassword();
@@ -51,6 +50,7 @@ bool emailVerifier(const string&);
 bool phoneVerifier(const string&);
 bool usernameVerifier(const string&);
 bool validateRegistration(map<string, User>, User&);
+string takeName();
 
 void loadProfileData();
 void saveProfileData();
@@ -64,4 +64,7 @@ void sortStr(string&);
 
 string encryption(string);
 string decryption(string);
+
+
+void cleanStream(istream&);
 #endif

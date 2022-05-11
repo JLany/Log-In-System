@@ -207,7 +207,7 @@ bool usernameRepeated(const string&, User& nUser){
 
 
 string takePassword() {
-    string password, passAgain = "";
+    string password, passAgain;
     displayPassReq();
     cout << "Password:\n";
     password = hiddenInput();

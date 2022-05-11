@@ -11,11 +11,12 @@
 #include "source.h"
 
 int main() {
+    bool run = true;
+    
     if (!loadProfileData()) {
         cout << "Failed to load user data. Aborting...";
         return 0;
     }
-    bool run = true;
 
     while(run){
         printf("Do you want to:\n1-Register\n2-Log In\n3-Change Password\n4-Exit\n");
@@ -42,6 +43,7 @@ int main() {
                 cout << "Please choose a valid option.\n";
         }
     }
+    
     saveProfileData();
 }
 

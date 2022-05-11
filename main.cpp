@@ -21,7 +21,7 @@ int main() {
     while(run){
         printf("Do you want to:\n1-Register\n2-Log In\n3-Change Password\n4-Exit\n");
         char userInput;
-        cin >> userInput;
+        userInput = _getch();
         switch (userInput) {
             case '1':
                 Register();
@@ -38,7 +38,7 @@ int main() {
                 break;
             case '4':
                 run = false;
-            break;
+                break;
             default:
                 cout << "Please choose a valid option.\n";
         }

@@ -340,7 +340,7 @@ void changePassword() {
 
 string encryption(string msg) {
 	int lenm = msg.length();
-	string keyword = "PointerDebuggerRecursionLadyClion";
+	string keyword = "pointerdebuggerrecursionladyclion";
 	int lenk = keyword.length();
 	for (int i = 0, j = 0; i < lenm; i++, j++) {
 		unsigned char m = msg[i];
@@ -362,7 +362,7 @@ string encryption(string msg) {
 
 string decryption(string msg) {
 	int lenm = msg.length();
-	string keyword = "PointerDebuggerRecursionLadyClion";
+	string keyword = "pointerdebuggerrecursionladyclion";
 	int lenk = keyword.length();
 	for (int i = 0, j = 0; i < lenm; i++, j++) {
 		if (j >= lenk) j = 0;

@@ -5,7 +5,7 @@
 // Author2 and ID and Group: Maya Ayman Zain El-Din | 20210508 | S25
 // Author3 and ID and Group: Mahmoud Adel | 20210563 | S25
 // Teaching Assistant: Eng. Mahmoud Fateaha
-// Purpose:..........
+// Purpose: Basic Login System for general use. For companies, Schools, ...etc.
 
 
 #include "source.h"
@@ -13,9 +13,9 @@
 map<string, User> userMap;
 string currentUserId;
 
-int loadProfileData() {
-    fstream dataSource;
-    User newUser;
+int loadProfileData() { // int return type to ensure data was
+    fstream dataSource; // loaded correctly
+    User user;
 
     dataSource.open("UserData.txt", ios::in);
 
@@ -23,36 +23,36 @@ int loadProfileData() {
         return 0;
     }
 
-    while (!dataSource.eof()) {
-        dataSource >> newUser;
-        newUser.password = decryption(newUser.password);
+    while (!dataSource.eof()) { // loading profile data into a map
+        dataSource >> user;     // overloaded to read userdata line by line
+        user.password = decryption(user.password); // decrypt password before inserting
         userMap.insert(pair<string, User>(
-            newUser.username, newUser
+            user.username, user // using pair, insert (user.username, actual object: user)
             )
         );
     }
 
     dataSource.close();
-    return 1;
+    return 1; // loading successful
 }
 
 
-void saveProfileData() {
+void saveProfileData() { // to save after changes
     fstream dataTarget;
 
     dataTarget.open("UserData.txt", ios::out);
-
-    for (pair<string, User> user : userMap) {
-        user.second.password = encryption(user.second.password);
-        dataTarget << user.second;
-    }
-
+    
+    for (pair<string, User> user : userMap) { // loop on userMap 
+        user.second.password = encryption(user.second.password); // enctypt pass before storing
+        dataTarget << user.second; // overloaded to write        // in the file
+    }                              // object attributes 
+                                   // in one line
     dataTarget.close();
 }
 
 
-void saveProfileData(User& newUser) {
-    fstream dataTarget;
+void saveProfileData(User& newUser) { // overloaded to add a new user 
+    fstream dataTarget;               // to the file
 
     userMap.insert(pair<string, User>(newUser.username, newUser));
     
@@ -75,7 +75,7 @@ ostream& operator<< (ostream& out, const User& user) {
     out << user.email << ' ';
     out << user.phoneNumber << endl;
     return out;
-}
+}   // each object is written in a separate line
 
 
 
@@ -86,13 +86,13 @@ istream& operator>> (istream& in, User& user) {
     in >> user.email;
     in >> user.phoneNumber;
     return in;
-}
+}   // assumes that each object is on a separate line
 
 
 
 void Register() {
     User newUser;
-    cout << "Username (letters and '-' are only allowed):\n";
+    cout << "Username (alphabet letters and '-' are only allowed):\n";
     cin >> newUser.username;
     while(!usernameVerifier(newUser.username)){
         cout << "Please enter a proper username including letters and '-' ONLY." << endl;
@@ -115,7 +115,7 @@ void Register() {
         cout << "Please enter a valid phone number." << endl;
         cin >> newUser.phoneNumber;
     }
-
+    
     newUser.password = takePassword();
 
     if (validateRegistration(userMap, newUser))
@@ -179,7 +179,7 @@ bool usernameVerifier(const string& username){
 }
 
 
-void displayPassReq() {
+void displayPassReq() { // Display Passowrd Requirments
     cout << "Password should at least have one Capital letter, one small letter,\n";
     cout << "one digit, one symbol, and at least 8 characters long.\n";
     cout << "Allowed symbols: !#$%&*+-\n";
@@ -206,18 +206,18 @@ bool usernameRepeated(const string&, User& nUser){
 }
 
 
-string takePassword() {
+string takePassword() { // takes a password from user and return it
     string password, passAgain;
     displayPassReq();
     cout << "Password:\n";
-    password = hiddenInput();
-    while (!isValidPass(password)) {
+    password = hiddenInput(); 
+    while (!isValidPass(password)) { // re-ask for password until it's valid
         cout << "Invalid Password!\n";
         displayPassReq();
         cout << "Password:\n";
         password = hiddenInput();
     }
-    while (!isStrongPass(password)) {
+    while (!isStrongPass(password)) { // re-ask for password until it's strong
         cout << "Weak Password! Make sure you follow rules:\n";
         displayPassReq();
         cout << "Password:\n";
@@ -225,7 +225,7 @@ string takePassword() {
     }
     cout << "Repeat your Password:\n";
     passAgain = hiddenInput();
-    while (password != passAgain) {
+    while (password != passAgain) { // re-ask to repeat password until same as first one
         cout << "Make sure you enter the same password twice!:\n";
         passAgain = hiddenInput();
     }
@@ -241,14 +241,15 @@ bool isValidPass(const string& password) {
 
 bool isStrongPass(string password) {
     regex strongPass("[!#$%&*+-]+[0-9]+[A-Z]+[a-z]+");
-    sortStr(password);
+    sortStr(password); // sort pass, because the regex assumes that 
+                       // the password is sorted from smallest ascii to largest
     return regex_match(password, strongPass);
 }
 
-void sortStr(string& str) {
+void sortStr(string& str) { // poor sorting algorithm
     for (int i = 0; i < str.length() - 1; i++) {
         for (int j = 0; j < str.length() - 1 - i; j++) {
-            if (str[j] > str[j+1]) {
+            if (str[j] > str[j+1]) { 
                 swap(str[j], str[j+1]);
             }
         }
@@ -258,29 +259,31 @@ void sortStr(string& str) {
 string hiddenInput() {
 	string input;
 	char chr;
-	while (true) { 
-        chr = _getch();
+	while (true) { // keep taking charcters until break
+        chr = (char)_getch();
         if ((int)chr == 13) { // ascii of newline
-            break;
+            break;            // break on <Enter>
         }
 		if ((int)chr == 8) { // ascii of Backspace
-            if (input.length() < 1) { // to avoid unwanted erasing
-                continue;
-            }                            // '\b' pushes the cursor 1 step back
-			cout << '\b' << ' ' << '\b'; // and then ' ' erases the last character
+            if (input.length() < 1) { 
+                continue; // to avoid unwanted erasing
+            }                            
+			cout << '\b' << ' ' << '\b'; // '\b' pushes the cursor 1 step back
+                                         // and then ' ' erases the last character
+
             input.pop_back(); // erase from actual input
-			continue;
+            continue;
 		}
         input += chr;
         cout << '*';
 	}
-	cout << endl;
+	cout << endl; // after hitting <Enter>
 
 	return input;
 }
 
 
-bool logIn() { // ambigeous function @_@
+bool logIn() { 
     int trials = 3;
     while (trials--) { 
         printf("Enter username:\n");
@@ -334,8 +337,8 @@ void changePassword() {
 
 string encryption(string msg) {
 	int lenm = msg.length();
-	string keyword = "anything";					// change the keyword to anything
-	int lenk = keyword.length();                    // DONE
+	string keyword = "PointerDebuggerRecursionLadyClion";					
+	int lenk = keyword.length();                    
 	for (int i = 0, j = 0; i < lenm; i++, j++) {
 		unsigned char m = msg[i];
 		if (j >= lenk) j = 0;
@@ -356,7 +359,7 @@ string encryption(string msg) {
 
 string decryption(string msg) {
 	int lenm = msg.length();
-	string keyword = "anything";					// change the keyword to anything
+	string keyword = "PointerDebuggerRecursionLadyClion";
 	int lenk = keyword.length();
 	for (int i = 0, j = 0; i < lenm; i++, j++) {
 		if (j >= lenk) j = 0;

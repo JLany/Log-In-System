@@ -5,7 +5,7 @@
 // Author2 and ID and Group: Maya Ayman Zain El-Din | 20210508 | S25
 // Author3 and ID and Group: Mahmoud Adel | 20210563 | S25
 // Teaching Assistant: Eng. Mahmoud Fateaha
-// Purpose:..........
+// Purpose: Basic Login System for general use. For companies, Schools, ...etc.
 
 
 #ifndef SOURCE_H
@@ -28,7 +28,7 @@ using namespace std;
 
 // -------------Declarations-------------
 struct User {
-    string username; // should be a string to avoid unwanted changes, also not to be restricted by a limit
+    string username;
     string name;
     string password;
     string email;
@@ -47,7 +47,6 @@ istream& operator>> (istream&, User&);
 void Register();
 bool logIn();
 void changePassword();
-
 bool emailVerifier(const string&);
 bool phoneVerifier(const string&);
 bool usernameVerifier(const string&);
@@ -63,10 +62,9 @@ string hiddenInput();
 bool isValidPass(const string&);
 bool isStrongPass(string);
 void sortStr(string&);
-
 string encryption(string);
 string decryption(string);
-
-
 void cleanStream(istream&);
-#endif
+
+
+#endif 

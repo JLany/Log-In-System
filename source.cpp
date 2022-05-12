@@ -17,7 +17,7 @@ int loadProfileData() {
     fstream dataSource;
     User newUser;
 
-    dataSource.open("userDataSample.txt", ios::in);
+    dataSource.open("UserData.txt", ios::in);
 
     if (dataSource.fail()) {
         return 0;
@@ -40,7 +40,7 @@ int loadProfileData() {
 void saveProfileData() {
     fstream dataTarget;
 
-    dataTarget.open("userDataSample.txt", ios::out);
+    dataTarget.open("UserData.txt", ios::out);
 
     for (pair<string, User> user : userMap) {
         user.second.password = encryption(user.second.password);
@@ -56,7 +56,7 @@ void saveProfileData(User& newUser) {
 
     userMap.insert(pair<string, User>(newUser.username, newUser));
     
-    dataTarget.open("userDataSample.txt", ios::out);
+    dataTarget.open("UserData.txt", ios::out);
 
     for (pair<string, User> user : userMap) {
         user.second.password = encryption(user.second.password);

@@ -1,11 +1,12 @@
 // FCAI – Programming 1 – 2022 - Assignment 4
 // Program Name: Log-In-System.cpp | implementation
-// Last Modification Date: xx/xx/xxxx
+// Last Modification Date: 12/05/2022
 // Author1 and ID and Group: Yousef Kilany | 20210544 | S25
 // Author2 and ID and Group: Maya Ayman Zain El-Din | 20210508 | S25
 // Author3 and ID and Group: Mahmoud Adel | 20210563 | S25
 // Teaching Assistant: Eng. Mahmoud Fateaha
 // Purpose: Basic Login System for general use. For companies, Schools, ...etc.
+// Description: It is a basic log in system to register and display the user's personal information using a username and a password
 
 
 #include "source.h"
@@ -41,17 +42,17 @@ void saveProfileData() { // to save after changes
     fstream dataTarget;
 
     dataTarget.open("UserData.txt", ios::out);
-    
-    for (pair<string, User> user : userMap) { // loop on userMap 
+
+    for (pair<string, User> user : userMap) { // loop on userMap
         user.second.password = encryption(user.second.password); // enctypt pass before storing
         dataTarget << user.second; // overloaded to write        // in the file
-    }                              // object attributes 
+    }                              // object attributes
                                    // in one line
     dataTarget.close();
 }
 
 
-void saveProfileData(User& newUser) { // overloaded to add a new user 
+void saveProfileData(User& newUser) { // overloaded to add a new user
     fstream dataTarget;               // to the file
 
     userMap.insert(pair<string, User>(newUser.username, newUser));
@@ -88,8 +89,7 @@ istream& operator>> (istream& in, User& user) {
     return in;
 }   // assumes that each object is on a separate line
 
-
-
+// Registers the user if the information is valid
 void Register() {
     User newUser;
     cout << "Username (alphabet letters and '-' are only allowed):\n";
@@ -115,7 +115,7 @@ void Register() {
         cout << "Please enter a valid phone number." << endl;
         cin >> newUser.phoneNumber;
     }
-    
+
     newUser.password = takePassword();
 
     if (validateRegistration(userMap, newUser))
@@ -126,19 +126,8 @@ void Register() {
 }
 
 
-bool emailVerifier(const string& email) {
-    string local = "[#!%$‘&+*/=?^_`.{|}~a-zA-Z0-9-]{1,62}";
-    string preDot = "[a-zA-Z0-9-]{0,61}";
-    string postDot = "[a-zA-Z]{2,4}";
-    string domainPart = "[a-zA-Z0-9]" + preDot + "[a-zA-Z0-9]" + "[.]" + postDot;
-    string localPart = "[#!%$‘&+*/=?^_`{|}~a-zA-Z0-9-]" + local + "[#!%$‘&+*/=?^_`{|}~a-zA-Z0-9-]";
-    regex fullEmail((localPart + "[@]" + domainPart));
-    return regex_match(email, fullEmail);
-
-}
-
-
-bool validateRegistration(map<string, User> myUsers, User& newUser){ // ambigeous function @_@
+// makes sure the username and the email aren't already registered in the system
+bool validateRegistration(map<string, User> myUsers, User& newUser){
     map<string, User>::iterator ptr; // pointer to map
     for (ptr = myUsers.begin(); ptr != myUsers.end(); ++ptr) {
         if (emailRepeated(newUser.email, newUser)){
@@ -160,19 +149,29 @@ bool validateRegistration(map<string, User> myUsers, User& newUser){ // ambigeou
             }
             return validateRegistration(userMap, newUser);
         }
-
     }
-
-    return 1;
+    return true;
 }
 
+// verifies the email is in the proper format
+bool emailVerifier(const string& email) {
+    string local = "[#!%$‘&+*/=?^_`.{|}~a-zA-Z0-9-]{1,62}";
+    string preDot = "[a-zA-Z0-9-]{0,61}";
+    string postDot = "[a-zA-Z]{2,4}";
+    string domainPart = "[a-zA-Z0-9]" + preDot + "[a-zA-Z0-9]" + "[.]" + postDot;
+    string localPart = "[#!%$‘&+*/=?^_`{|}~a-zA-Z0-9-]" + local + "[#!%$‘&+*/=?^_`{|}~a-zA-Z0-9-]";
+    regex fullEmail((localPart + "[@]" + domainPart));
+    return regex_match(email, fullEmail);
 
+}
+
+// verifies the phone number is in the Egyptian phone number format
 bool phoneVerifier(const string& phoneNum){
     regex validPhone("[0][1][0|1|2|5][0-9]{8}");
     return regex_match(phoneNum, validPhone);
 }
 
-
+// verifies the username contains only letters and dashes
 bool usernameVerifier(const string& username){
     regex validUsername("[a-zA-Z-]+");
     return regex_match(username, validUsername);
@@ -185,7 +184,7 @@ void displayPassReq() { // Display Passowrd Requirments
     cout << "Allowed symbols: !#$%&*+-\n";
 }
 
-
+// makes sure the email isn't repeated
 bool emailRepeated(const string& email, User& nUser){
     for (auto& username : userMap) {
         if (nUser.email == username.second.email){
@@ -195,7 +194,7 @@ bool emailRepeated(const string& email, User& nUser){
     return false;
 }
 
-
+// makes sure the username isn't repeated
 bool usernameRepeated(const string&, User& nUser){
     for (auto& username : userMap) {
         if (nUser.username == username.second.username){
@@ -210,7 +209,7 @@ string takePassword() { // takes a password from user and return it
     string password, passAgain;
     displayPassReq();
     cout << "Password:\n";
-    password = hiddenInput(); 
+    password = hiddenInput();
     while (!isValidPass(password)) { // re-ask for password until it's valid
         cout << "Invalid Password!\n";
         displayPassReq();
@@ -241,7 +240,7 @@ bool isValidPass(const string& password) {
 
 bool isStrongPass(string password) {
     regex strongPass("[!#$%&*+-]+[0-9]+[A-Z]+[a-z]+");
-    sortStr(password); // sort pass, because the regex assumes that 
+    sortStr(password); // sort pass, because the regex assumes that
                        // the password is sorted from smallest ascii to largest
     return regex_match(password, strongPass);
 }
@@ -249,7 +248,7 @@ bool isStrongPass(string password) {
 void sortStr(string& str) { // poor sorting algorithm
     for (int i = 0; i < str.length() - 1; i++) {
         for (int j = 0; j < str.length() - 1 - i; j++) {
-            if (str[j] > str[j+1]) { 
+            if (str[j] > str[j+1]) {
                 swap(str[j], str[j+1]);
             }
         }
@@ -259,15 +258,15 @@ void sortStr(string& str) { // poor sorting algorithm
 string hiddenInput() {
 	string input;
 	char chr;
-	while (true) { // keep taking charcters until break
+	while (true) { // keep taking characters until break
         chr = (char)_getch();
         if ((int)chr == 13) { // ascii of newline
             break;            // break on <Enter>
         }
 		if ((int)chr == 8) { // ascii of Backspace
-            if (input.length() < 1) { 
+            if (input.length() < 1) {
                 continue; // to avoid unwanted erasing
-            }                            
+            }
 			cout << '\b' << ' ' << '\b'; // '\b' pushes the cursor 1 step back
                                          // and then ' ' erases the last character
 
@@ -283,7 +282,7 @@ string hiddenInput() {
 }
 
 
-bool logIn() { 
+bool logIn() {
     int trials = 3;
     while (trials--) { 
         printf("Enter username:\n");
@@ -291,7 +290,7 @@ bool logIn() {
         printf("Enter Password:\n");
         string pass = hiddenInput();
         if (auto itr = userMap.find(currentUserId) != userMap.end()) { // find position of the entered username
-            if (userMap[currentUserId].password == pass) {             // if found stores the data in struct to 
+            if (userMap[currentUserId].password == pass) {             // if found stores the data in struct to
                 printf("Log in successful\nWelcome ");                 // check pass and display results
                 cout << userMap[currentUserId].name << '\n';
                 //cout << user;           //display all userinfo after successful login
@@ -307,7 +306,7 @@ bool logIn() {
         }
     }
     printf("Access Denied.\n");
-    
+
     return 0;
 }
 
@@ -337,8 +336,8 @@ void changePassword() {
 
 string encryption(string msg) {
 	int lenm = msg.length();
-	string keyword = "PointerDebuggerRecursionLadyClion";					
-	int lenk = keyword.length();                    
+	string keyword = "PointerDebuggerRecursionLadyClion";
+	int lenk = keyword.length();
 	for (int i = 0, j = 0; i < lenm; i++, j++) {
 		unsigned char m = msg[i];
 		if (j >= lenk) j = 0;
@@ -375,12 +374,4 @@ string decryption(string msg) {
 		}
 	}
 	return msg;
-}
-
-
-void cleanStream(istream& stream) { // if someone fancy using it, 
-    string garbage;                 // here it is
-    while (!stream.fail()) {
-        stream >> garbage;
-    }
 }

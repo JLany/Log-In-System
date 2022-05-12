@@ -210,16 +210,20 @@ string takePassword() { // takes a password from user and return it
     displayPassReq();
     cout << "Password:\n";
     password = hiddenInput();
-    while (!isValidPass(password)) { // re-ask for password until it's valid
-        cout << "Invalid Password!\n";
+    while (true) {
+        if (isValidPass(password)) {
+            if (isStrongPass(password)) {
+                break;
+            }
+            cout << "Weak Password! Make sure you follow rules:\n";
+            displayPassReq();
+            cout << "Password: ";
+            password = hiddenInput();
+            continue;
+        }
+        cout << "Invalid Password! Make sure you follow rules:\n";
         displayPassReq();
-        cout << "Password:\n";
-        password = hiddenInput();
-    }
-    while (!isStrongPass(password)) { // re-ask for password until it's strong
-        cout << "Weak Password! Make sure you follow rules:\n";
-        displayPassReq();
-        cout << "Password:\n";
+        cout << "Password: ";
         password = hiddenInput();
     }
     cout << "Repeat your Password:\n";

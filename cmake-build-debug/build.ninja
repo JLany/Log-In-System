@@ -49,14 +49,14 @@ cmake_ninja_workdir = C$:/Users/Maya$ Ayman/Desktop/Assignmet$ #4/Log-In-System/
 
 build cmake_object_order_depends_target_Assignmet__4: phony || CMakeFiles/Assignmet__4.dir
 
-build CMakeFiles/Assignmet__4.dir/main.cpp.obj: CXX_COMPILER__Assignmet__4_Debug C$:/Users/Maya$ Ayman/Desktop/Assignmet$ #4/Log-In-System/main.cpp || cmake_object_order_depends_target_Assignmet__4
-  DEP_FILE = CMakeFiles\Assignmet__4.dir\main.cpp.obj.d
+build CMakeFiles/Assignmet__4.dir/CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginApp.cpp.obj: CXX_COMPILER__Assignmet__4_Debug C$:/Users/Maya$ Ayman/Desktop/Assignmet$ #4/Log-In-System/CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginApp.cpp || cmake_object_order_depends_target_Assignmet__4
+  DEP_FILE = CMakeFiles\Assignmet__4.dir\CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginApp.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\Assignmet__4.dir
   OBJECT_FILE_DIR = CMakeFiles\Assignmet__4.dir
 
-build CMakeFiles/Assignmet__4.dir/source.cpp.obj: CXX_COMPILER__Assignmet__4_Debug C$:/Users/Maya$ Ayman/Desktop/Assignmet$ #4/Log-In-System/source.cpp || cmake_object_order_depends_target_Assignmet__4
-  DEP_FILE = CMakeFiles\Assignmet__4.dir\source.cpp.obj.d
+build CMakeFiles/Assignmet__4.dir/CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginFunctions.cpp.obj: CXX_COMPILER__Assignmet__4_Debug C$:/Users/Maya$ Ayman/Desktop/Assignmet$ #4/Log-In-System/CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginFunctions.cpp || cmake_object_order_depends_target_Assignmet__4
+  DEP_FILE = CMakeFiles\Assignmet__4.dir\CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginFunctions.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\Assignmet__4.dir
   OBJECT_FILE_DIR = CMakeFiles\Assignmet__4.dir
@@ -69,7 +69,7 @@ build CMakeFiles/Assignmet__4.dir/source.cpp.obj: CXX_COMPILER__Assignmet__4_Deb
 #############################################
 # Link the executable Assignmet__4.exe
 
-build Assignmet__4.exe: CXX_EXECUTABLE_LINKER__Assignmet__4_Debug CMakeFiles/Assignmet__4.dir/main.cpp.obj CMakeFiles/Assignmet__4.dir/source.cpp.obj
+build Assignmet__4.exe: CXX_EXECUTABLE_LINKER__Assignmet__4_Debug CMakeFiles/Assignmet__4.dir/CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginApp.cpp.obj CMakeFiles/Assignmet__4.dir/CS112-203-2nd-S25-20210508-20210544-20210563-A4-LoginFunctions.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Assignmet__4.dir
